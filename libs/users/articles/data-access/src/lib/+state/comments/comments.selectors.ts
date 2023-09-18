@@ -1,4 +1,4 @@
-import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { createSelector } from '@ngrx/store';
 import { CommentsState, commentsAdapter, commentsFeature } from './comments.reducer';
 
 export const { selectCommentsState, selectIds, selectStatus } = commentsFeature
@@ -14,3 +14,7 @@ export const selectCommentsEntities = createSelector(
   selectCommentsState,
   (state: CommentsState) => selectEntities(state)
 );
+
+// export const selectLikedCommentId = createSelector(
+//   selectCommentsState,
+// )

@@ -12,4 +12,5 @@ export interface Comment {
   },
   text: string
   created_at: Date,
+  isLiked: boolean,
 }

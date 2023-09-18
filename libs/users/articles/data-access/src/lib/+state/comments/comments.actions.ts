@@ -1,4 +1,4 @@
-import { createActionGroup, emptyProps, props } from "@ngrx/store";
+import { createActionGroup, props } from "@ngrx/store";
 import { Comment } from "../../models/user-comment.model";
 import { CreateComment } from "../../models/create-comment.model";
 
@@ -14,5 +14,6 @@ export const CommentsActions = createActionGroup({
     deleteComment: props<{ id: number }>(),
     deleteCommentSuccess: props<{ id: number }>(),
     deleteCommentFailed: props<{ error: Error }>(),
+    likeComment: props<{id: number, isLiked: boolean}>()
   },
 });

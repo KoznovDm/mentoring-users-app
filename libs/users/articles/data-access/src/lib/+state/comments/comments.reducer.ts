@@ -7,8 +7,9 @@ import { EntityAdapter, EntityState, createEntityAdapter } from '@ngrx/entity';
 export const commentsFeatureKey = 'comments';
 
 export interface CommentsState extends EntityState<Comment> {
-  status: LoadingStatus
-  publishStatus: LoadingStatus
+  // selectedId?: number | string,
+  status: LoadingStatus,
+  publishStatus: LoadingStatus,
 }
 
 export const commentsAdapter: EntityAdapter<Comment> =
@@ -19,8 +20,9 @@ export const commentsAdapter: EntityAdapter<Comment> =
   });
 
 export const initialCommentsState: CommentsState = commentsAdapter.getInitialState({
+  // set initial required properties
   status: 'init',
-  publishStatus: 'init'
+  publishStatus: 'init',
 })
 
 export const commentsFeature = createFeature({
@@ -56,8 +58,12 @@ export const commentsFeature = createFeature({
       publishStatus: 'error' as const
     })),
 
-    on(CommentsActions.deleteComment, (state, { id }) => 
+    on(CommentsActions.deleteComment, (state, { id }) =>
       commentsAdapter.removeOne(id, state)
+    ),
+
+    on(CommentsActions.likeComment, (state, {id, isLiked}) =>
+      commentsAdapter.updateOne({id, changes: {isLiked}}, state)
     )
   )
 });
