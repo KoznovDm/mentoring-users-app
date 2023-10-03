@@ -3,6 +3,7 @@ import { tasksAction } from './tasks.action';
 import { selectColumns } from './tasks.selector';
 import { IColumn } from '../model/tasks.interface';
 import { select, Store } from '@ngrx/store';
+import { UsersDTO } from '@users/core/data-access';
 
 @Injectable({
   providedIn: 'root',
@@ -21,6 +22,11 @@ export class TasksFacade {
   updateColumns(columns: IColumn[]) {
     this.store.dispatch(tasksAction.updateColumns({ columns }));
   }
+  
+  addExecutor(executor: UsersDTO | null){
+    this.store.dispatch(tasksAction.addExecutor({executor}));
+  }
+
   deleteColumn(columnIndex: number) {
     this.store.dispatch(tasksAction.deleteColumn({ columnIndex }));
   }

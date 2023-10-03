@@ -1,3 +1,5 @@
+import { UsersDTO } from "@users/core/data-access";
+
 export interface ITaskBoard {
   id: number;
   created_at: number;
@@ -8,6 +10,7 @@ export interface ITaskBoard {
 
 export interface ITask {
   taskName: string;
+  executor?: UsersDTO;
 }
 
 export interface IColumn {

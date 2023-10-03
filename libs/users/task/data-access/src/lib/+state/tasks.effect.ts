@@ -6,6 +6,7 @@ import { map, mergeMap, catchError } from 'rxjs/operators';
 import { tasksAction } from './tasks.action';
 import { ITaskBoard } from '../model/tasks.interface';
 import { EMPTY } from 'rxjs';
+import { UsersDTO } from '@users/core/data-access';
 
 export class tasksEffects {
   // Загрузка всех бордв, спросить нужны ли они
@@ -36,6 +37,18 @@ export class tasksEffects {
       )
     );
   });
+
+  addExecutor$ = createEffect(()=>{  //Жду бэк
+    const actions$ = inject(Actions);
+    const api = inject(ApiService);
+    return actions$.pipe(
+      ofType(tasksAction.addExecutor),
+      mergeMap(() =>
+      api.get<UsersDTO | null>('/WaitBack')
+      .pipe(map((res) => tasksAction.addExecutorSuccess({executor: res})))
+      )
+    )
+  })  
 
   deleteColumn$ = createEffect(() => {
     const actions$ = inject(Actions);

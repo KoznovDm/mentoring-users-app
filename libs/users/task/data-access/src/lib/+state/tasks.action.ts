@@ -1,6 +1,7 @@
 
 import { createActionGroup, props, emptyProps } from "@ngrx/store";
 import { IColumn, ITaskBoard } from "../model/tasks.interface";
+import { UsersDTO } from "@users/core/data-access";
 
 export const tasksAction = createActionGroup({
   source: 'tasks',
@@ -16,6 +17,9 @@ export const tasksAction = createActionGroup({
 
     updateColumns: props<{columns: IColumn[]}>(),
     updateColumnsSuccess: props<{columns: IColumn[]}>(),
+
+    addExecutor: props<{executor: UsersDTO | null}>(),
+    addExecutorSuccess: props<{executor: UsersDTO | null}>(),
 
     deleteColumn: props<{ columnIndex: number }>(),
     deleteColumnSuccess: props<{ columnIndex: number }>(), 

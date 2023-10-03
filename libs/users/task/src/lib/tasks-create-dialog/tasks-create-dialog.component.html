@@ -1,12 +1,25 @@
 <h2 mat-dialog-title>Создание задачи</h2>
 <mat-dialog-content>
-  <mat-form-field appearance="outline">
-    <input matInput
-           type="text"
-           class="newTaskInput"
-           [(ngModel)]="task"
-           placeholder="new Task">
-  </mat-form-field>
+  <div style="display: flex; justify-content: space-between;">
+    <mat-form-field appearance="outline" style="flex: 1;">
+      <input matInput
+            type="text"
+            class="newTaskInput"
+            [(ngModel)]="task"
+            placeholder="new Task">
+    </mat-form-field>
+    <mat-form-field appearance="outline" style="flex: 1; margin-left: 16px;">
+      <mat-label>Выберите исполнителя</mat-label>
+      <mat-select [(value)]="executor" (selectionChange)="executor = $event.value">
+        <mat-option *ngFor="let user of allUsers$ | ngrxPush" [value]="user">
+          <div style="display: flex; align-items: center;">
+            <img *ngIf="user.photo" [src]="user.photo.url" alt="User photo" width="40" height="40" style="margin-right: 8px;">
+            {{ user.name }}
+          </div>
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-icon-button

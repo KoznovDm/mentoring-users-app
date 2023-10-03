@@ -34,6 +34,9 @@ export const tasksFeature = createFeature({
     on(tasksAction.loadMyBoardSuccess, (state, { board }) => ({
       ...state,
       ...board
-    }))
+    })),
+    // on(tasksAction.addExecutorSuccess, (state, {executor}) =>{
+    //   return {...state, executor: [...executor]}
+    // })
   ),
 });

@@ -23,6 +23,7 @@ import {TasksCreateDialogComponent} from "../tasks-create-dialog/tasks-create-di
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {filter} from "rxjs";
 import {TasksCreateColumnDialogComponent} from "../tasks-create-column-dialog/tasks-create-column-dialog.component";
+import { UsersDTO } from '@users/core/data-access';
 
 @Component({
   selector: 'users-tasks-view',
@@ -50,17 +51,17 @@ export class TasksViewComponent {
 
   private matDialog = inject(MatDialog);
   private readonly destroyRef = inject(DestroyRef)
-
-  constructor(private tasksStore: TasksStore) {}
-
+  private readonly tasksStore = inject(TasksStore)
 
   @Input() columns?: IColumn[];
+  // @Input() executor?: UsersDTO;
   @Input() colorMode?: boolean;
   @Output() updateColumns = new EventEmitter<{ columns: IColumn[] }>();
   @Output() deleteColumn = new EventEmitter<number>();
-  @Output() addTask = new EventEmitter<{columnIndex: number, taskName: string}>();
+  @Output() addTask = new EventEmitter<{columnIndex: number; task: { taskName: string, executor: UsersDTO }}>();
   @Output() deleteTask = new EventEmitter<{columnIndex: number, taskName: string}>();
-  
+
+  public selectedExecutor!: UsersDTO;
 
   public removeColumn(columnIndex: number) {
     this.deleteColumn.emit(columnIndex);
@@ -119,9 +120,12 @@ export class TasksViewComponent {
     dialogRef.afterClosed()
       .pipe(
         takeUntilDestroyed(this.destroyRef),
-        filter(taskName => !!taskName)
+        filter(taskData => !!taskData && !!taskData.taskName || !!taskData.executor)
       )
-      .subscribe((taskName: string) => this.addTask.emit({ columnIndex, taskName }))
+      .subscribe((taskData: { taskName: string, executor: UsersDTO }) => {
+        this.selectedExecutor = taskData.executor;
+        this.addTask.emit({ columnIndex, task: taskData });
+      });
   }
 
   public openAddNewColumnModal(): void {

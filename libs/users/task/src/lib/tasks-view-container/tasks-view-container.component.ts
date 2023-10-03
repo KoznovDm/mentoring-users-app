@@ -8,6 +8,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { TasksStore } from './tasks-list-container.store';
 import { ThemeSwitchService } from '@users/users/core/ui/theme-switch';
 import { PushPipe } from '@ngrx/component';
+import { UsersDTO } from '@users/core/data-access';
 
 
 @Component({
@@ -39,9 +40,9 @@ export class TasksContainerComponent {
   public deleteColumn(columnIndex: number) {
     this.tasksStore.deleteLocalColumn(columnIndex);
   }
-  public addTask(event: { columnIndex: number; taskName: string }) {
-    const { columnIndex, taskName } = event;
-    this.tasksStore.addTaskToLocalColumn({ columnIndex, taskName });
+  public addTask(event: { columnIndex: number; task: { taskName: string, executor: UsersDTO }}) {
+    const { columnIndex, task } = event;
+    this.tasksStore.addTaskToLocalColumn({ columnIndex, task });
   }
   public deleteTask(event: { columnIndex: number; taskName: string }) {
     this.tasksStore.deleteTask(event);
